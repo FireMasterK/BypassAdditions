@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
@@ -13,7 +13,7 @@
 
 var url = window.location.href.toString();
 
-if (url.match( /*://*.linkvertise.com/*?r=*/ ).index != 0 || url.match( /*://*.linkvertise.net/*?r=*/ ).index != 0 || url.match( /*://*.link-to.net/*?r=*/ ).index != 0) {
+if (url.indexOf("?r=") != -1) {
  window.location = atob(decodeURIComponent(url.substr(url.indexOf("?r=") + 3)));
 } else {
   let o = {
