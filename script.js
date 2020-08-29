@@ -20,7 +20,7 @@ if (url.indexOf("?r=") != -1) {
   timestamp: new Date().getTime(),
   random: "375123"
  };
- var bypass_url = "https://linkvertise.net/api/v1/redirect/link/static" + window.location.pathname;
+ var bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link/static" + window.location.pathname;
  GM.xmlHttpRequest({
   method: "GET",
   headers: {
@@ -30,7 +30,7 @@ if (url.indexOf("?r=") != -1) {
   onload: function(response) {
    var json = JSON.parse(response.responseText);
    o.link_id = json.data.link.id
-   bypass_url = "https://linkvertise.net/api/v1/redirect/link" + window.location.pathname + "/target?serial=" + btoa(JSON.stringify(o));
+   bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link" + window.location.pathname + "/target?serial=" + btoa(JSON.stringify(o));
 
     GM.xmlHttpRequest({
     method: "GET",
