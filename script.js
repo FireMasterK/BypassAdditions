@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
@@ -18,7 +18,7 @@ if (url.indexOf("?r=") != -1) {
 } else {
   let o = {
   timestamp: new Date().getTime(),
-  random: "375123"
+  random: (Math.floor(Math.random() * 10000000)).toString()
  };
  var bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link/static" + window.location.pathname;
  GM.xmlHttpRequest({
