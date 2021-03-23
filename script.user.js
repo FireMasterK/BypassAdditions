@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.4.3
+// @version      0.4.4
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.user.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
@@ -11,10 +11,10 @@
 // @grant        GM.xmlHttpRequest
 // ==/UserScript==
 
-var url = window.location.href.toString();
+let search_params = new URLSearchParams(window.location.search);
 
-if (url.indexOf("?r=") != -1) {
-    window.location = atob(decodeURIComponent(url.substr(url.indexOf("?r=") + 3)));
+if (search_params.get("r") !== null) {
+    window.location = atob(decodeURIComponent(search_params.get("r")));
 } else {
 
     // iframe check
