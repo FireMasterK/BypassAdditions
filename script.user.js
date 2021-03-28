@@ -1,13 +1,17 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.4.4
+// @version      0.4.5
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.user.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
 // @match        *://*.linkvertise.com/*
 // @match        *://*.linkvertise.net/*
+// @match        *://*.linkvertise.download/*
 // @match        *://*.link-to.net/*
+// @match        *://*.file-link.net/*
+// @match        *://*.direct-link.net/*
+// @match        *://*.up-to-down.net/*
 // @grant        GM.xmlHttpRequest
 // ==/UserScript==
 
@@ -19,6 +23,15 @@ if (search_params.get("r") !== null) {
 
     // iframe check
     if (window.parent.location != window.location) { return }
+ 
+    // check if page is download page
+    let re_download = /^\/download(\/[0-9]+\/[^\/]+)\//;
+    let is_download = re_download.exec(window.location.pathname);
+    
+    if (is_download !== null) {
+        window.location.pathname = is_download[1];
+        return;
+    }
 
     var paths = ["/captcha", "/countdown_impression?trafficOrigin=network", "/todo_impression?mobile=true&trafficOrigin=network"]
 
