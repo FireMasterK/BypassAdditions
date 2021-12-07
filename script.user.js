@@ -24,11 +24,11 @@ if (search_params.get("r") !== null) {
 
     // iframe check
     if (window.parent.location != window.location) { return }
- 
+
     // check if page is download page
     let re_download = /^\/download(\/[0-9]+\/[^\/]+)\//;
     let is_download = re_download.exec(window.location.pathname);
-    
+
     if (is_download !== null) {
         window.location.pathname = is_download[1];
         return;
