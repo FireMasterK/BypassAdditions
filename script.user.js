@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.5.0
+// @version      0.6.0
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.user.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
