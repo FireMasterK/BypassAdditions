@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BypassAdditions
 // @namespace    http://tampermonkey.net/
-// @version      0.6.0
+// @version      0.6.1
 // @updateURL    https://raw.githubusercontent.com/FireMasterK/BypassAdditions/master/script.user.js
 // @description  Bypass links that cannot be bypassed by Universal Bypass
 // @author       FireMasterK
@@ -99,7 +99,7 @@
 
                             let body = document.createElement("body");
                             let pre = document.createElement("pre");
-                            pre.textContent = /* json.data.paste.trim() */ "foo bar";
+                            pre.textContent = json.data.paste.trim();
                             body.appendChild(pre);
                             document.body = body;
                         }
