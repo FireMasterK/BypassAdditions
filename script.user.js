@@ -15,6 +15,7 @@
 // @grant        GM.xmlHttpRequest
 // ==/UserScript==
 
+const fake_user_agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1";
 
 let search_params = new URLSearchParams(window.location.search);
 
@@ -41,13 +42,13 @@ if (search_params.get("r") !== null) {
         return;
     }
 
-    var paths = ["/captcha", "/countdown_impression?trafficOrigin=network", "/todo_impression?mobile=true&trafficOrigin=network"]
+    let paths = ["/captcha", "/countdown_impression?trafficOrigin=network", "/todo_impression?mobile=true&trafficOrigin=network"]
 
     paths.map(path => {
         GM.xmlHttpRequest({
             method: "GET",
             headers: {
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1"
+                "User-Agent": fake_user_agent
             },
             url: "https://publisher.linkvertise.com/api/v1/redirect/link" + is_regular[1] + path
         });
@@ -57,15 +58,15 @@ if (search_params.get("r") !== null) {
         timestamp: new Date().getTime(),
         random: "6548307"
     };
-    var bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link/static" + is_regular[1];
+    let bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link/static" + is_regular[1];
     GM.xmlHttpRequest({
         method: "GET",
         headers: {
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1"
+            "User-Agent": fake_user_agent
         },
         url: bypass_url,
         onload: function (response) {
-            var json = JSON.parse(response.responseText);
+            let json = JSON.parse(response.responseText);
             o.link_id = json.data.link.id
             o = { serial: btoa(JSON.stringify(o)) }
             bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link" + is_regular[1] + "/target?X-Linkvertise-UT=" + localStorage.getItem("X-LINKVERTISE-UT");
@@ -73,13 +74,13 @@ if (search_params.get("r") !== null) {
             GM.xmlHttpRequest({
                 method: "POST",
                 headers: {
-                    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1",
+                    "User-Agent": fake_user_agent,
                     "Content-Type": "application/json"
                 },
                 data: JSON.stringify(o),
                 url: bypass_url,
                 onload: function (response) {
-                    var json = JSON.parse(response.responseText);
+                    let json = JSON.parse(response.responseText);
                     window.location = json.data.target;
                 }
             });
