@@ -51,7 +51,7 @@
                 headers: {
                     "User-Agent": fake_user_agent
                 },
-                url: "https://publisher.linkvertise.com/api/v1/redirect/link" + is_regular[1] + path
+                url: `https://publisher.linkvertise.com/api/v1/redirect/link${is_regular[1]}${path}`
             });
         })
 
@@ -59,7 +59,7 @@
             timestamp: new Date().getTime(),
             random: "6548307"
         };
-        let bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link/static" + is_regular[1];
+        let bypass_url = `https://publisher.linkvertise.com/api/v1/redirect/link/static${is_regular[1]}`;
         GM.xmlHttpRequest({
             method: "GET",
             headers: {
@@ -68,9 +68,20 @@
             url: bypass_url,
             onload: function (response) {
                 let json = JSON.parse(response.responseText);
+
+                let link_target_type;
+                if (json.data.link.target_type === "URL") {
+                    link_target_type = "target";
+                } else if (json.data.link.target_type === "PASTE") {
+                    link_target_type = "paste";
+                } else {
+                    console.warn(`Unexpected link target type: ${json.data.link.target_type}`);
+                    return;
+                }
+
                 o.link_id = json.data.link.id
                 o = { serial: btoa(JSON.stringify(o)) }
-                bypass_url = "https://publisher.linkvertise.com/api/v1/redirect/link" + is_regular[1] + "/target?X-Linkvertise-UT=" + localStorage.getItem("X-LINKVERTISE-UT");
+                bypass_url = `https://publisher.linkvertise.com/api/v1/redirect/link${is_regular[1]}/${link_target_type}?X-Linkvertise-UT=${localStorage.getItem("X-LINKVERTISE-UT")}`;
 
                 GM.xmlHttpRequest({
                     method: "POST",
@@ -82,7 +93,16 @@
                     url: bypass_url,
                     onload: function (response) {
                         let json = JSON.parse(response.responseText);
-                        window.location = json.data.target;
+                        if (link_target_type === "target") {
+                            window.location = json.data.target;
+                        } else {
+
+                            let body = document.createElement("body");
+                            let pre = document.createElement("pre");
+                            pre.textContent = /* json.data.paste.trim() */ "foo bar";
+                            body.appendChild(pre);
+                            document.body = body;
+                        }
                     }
                 });
             }
